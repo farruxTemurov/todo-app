@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const TodoItem = ({ todo, dispatch, setFeedback, setIsVisible, setFeedbackType }) => {
     const [isEditing, setIsEditing] = useState(false);

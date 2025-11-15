@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { useTodos } from "./useTodos";
-import TodoItem from "./TodoItem";
-import useCountAnimation from "../../hooks/useCountAnimation";
+import { useTodos } from "../hooks/useTodos";
+import TodoItem from "../components/TodoItem";
+import useCountAnimation from "../hooks/useCountAnimation";
 
 function TodoPage() {
     const [newTodo, setNewTodo] = useState("");

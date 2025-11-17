@@ -28,9 +28,9 @@ function TodoPage() {
 
     const textColorObj = {
         add: "text-green-500",
-        edit: "text-yellow-600",
+        edit: "text-blue-600",
         delete: "text-red-500",
-        toggle: "text-gray-500",
+        toggle: "text-cyan-500",
         default: "text-gray-400"
     };
 

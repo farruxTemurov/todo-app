@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTodos } from "../hooks/useTodos";
-import TodoItem from "../components/TodoItem";
+import TodoItem from "../components/TodoItem"
 import useCountAnimation from "../hooks/useCountAnimation";
 import Button from "../components/Button";
 
@@ -23,7 +23,17 @@ function TodoPage() {
     const [isVisible, setIsVisible] = useState(false);
     const [feedbackType, setFeedbackType] = useState("default");
 
-    const { todos, dispatch, completedCount, filteredTodos } = useTodos();
+    // now includes backend actions
+    const {
+        todos,
+        completedCount,
+        filteredTodos,
+        addTodo,
+        toggleTodo,
+        deleteTodo,
+        editTodo
+    } = useTodos();
+
     const completedRef = useRef(null);
 
     const textColorObj = {
@@ -34,10 +44,12 @@ function TodoPage() {
         default: "text-gray-400"
     };
 
-    const addTodo = () => {
-        if (newTodo.trim() === "") return;
-        dispatch({ type: "ADD_TODO", payload: newTodo.trim() });
+    const handleAdd = async () => {
+        if (!newTodo.trim()) return;
+
+        await addTodo(newTodo.trim());
         setNewTodo("");
+
         setFeedback("✅ Task added!");
         setIsVisible(true);
         setFeedbackType("add");
@@ -49,6 +61,7 @@ function TodoPage() {
 
     useEffect(() => {
         if (!feedback) return;
+
         const hideTimer = setTimeout(() => setIsVisible(false), 1500);
         const clearTimer = setTimeout(() => setFeedback(""), 2000);
 
@@ -83,12 +96,12 @@ function TodoPage() {
                         placeholder="Enter a new task"
                         className={styles.newTodoInput}
                     />
-                    <Button variant="green" className="rounded-xl" onClick={addTodo}>
+                    <Button variant="green" className="rounded-xl" onClick={handleAdd}>
                         Add
                     </Button>
                 </div>
 
-                {/* Task stats */}
+                {/* Stats */}
                 <p className={styles.stats}>
                     You have completed{" "}
                     <span ref={completedRef} className={styles.counter}>
@@ -97,11 +110,11 @@ function TodoPage() {
                     of {todos.length} tasks!
                 </p>
 
-                {/* Feedback message */}
+                {/* Feedback */}
                 <p
-                    className={`${isVisible ? textColorObj[feedbackType] || textColorObj.default : ""} 
-                    ${styles.feedback} ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-                        }`}
+                    className={`${isVisible ? textColorObj[feedbackType] : ""} 
+                        ${styles.feedback} 
+                        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
                 >
                     {feedback}
                 </p>
@@ -110,13 +123,15 @@ function TodoPage() {
                 <ul className={styles.todoList}>
                     {displayedTodos.map((todo) => (
                         <TodoItem
-                            key={todo.id}
+                            key={todo._id} // 🚨 now _id, not id
                             todo={todo}
-                            dispatch={dispatch}
+                            toggleTodo={toggleTodo}
+                            deleteTodo={deleteTodo}
+                            editTodo={editTodo}
                             setFeedback={setFeedback}
                             setIsVisible={setIsVisible}
                             setFeedbackType={setFeedbackType}
-                            Button={Button} // pass our Button to child if needed
+                            Button={Button}
                         />
                     ))}
                 </ul>

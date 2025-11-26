@@ -2,19 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { useTodos } from "../hooks/useTodos";
 import TodoItem from "../components/TodoItem"
 import useCountAnimation from "../hooks/useCountAnimation";
+import useAutosizeTextArea from "../hooks/useAutosizeTextArea";
 import Button from "../components/Button";
-
-const styles = {
-    container: "min-h-screen bg-gray-100 text-gray-900 flex flex-col items-center py-10 px-4 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-500",
-    card: "w-full max-w-md bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 transition-all duration-500",
-    title: "text-3xl font-bold mb-6 text-center tracking-tight",
-    searchInput: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-400 transition",
-    newTodoInput: "flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 transition",
-    stats: "text-gray-700 dark:text-gray-300 mb-5 text-center",
-    counter: "inline-block font-semibold text-blue-600 dark:text-blue-400 transition-transform duration-300",
-    feedback: "transition-all duration-500 ease-in-out text-center mt-2 mb-2 delay-150",
-    todoList: "space-y-3"
-};
+import { todoStyles as styles } from "../styles/todoStyles";
 
 function TodoPage() {
     const [newTodo, setNewTodo] = useState("");
@@ -23,7 +13,6 @@ function TodoPage() {
     const [isVisible, setIsVisible] = useState(false);
     const [feedbackType, setFeedbackType] = useState("default");
 
-    // now includes backend actions
     const {
         todos,
         completedCount,
@@ -71,6 +60,25 @@ function TodoPage() {
         };
     }, [feedback]);
 
+    const textAreaRef = useRef(null);
+    useAutosizeTextArea(textAreaRef, newTodo);
+
+    const handleKeyDown = (e) => {
+        // Ctrl + Enter → Add todo
+        if (e.key === "Enter" && e.ctrlKey) {
+            e.preventDefault(); // Prevent adding new line
+            handleAdd();
+
+            // Clear textarea after add
+            setNewTodo("");
+
+            // Reset height
+            if (textAreaRef.current) {
+                textAreaRef.current.style.height = "auto";
+            }
+        }
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.card}>
@@ -89,14 +97,16 @@ function TodoPage() {
 
                 {/* New task input */}
                 <div className="flex gap-2 mb-6">
-                    <input
-                        type="text"
+                    <textarea
+                        ref={textAreaRef}
                         value={newTodo}
                         onChange={(e) => setNewTodo(e.target.value)}
+                        onKeyDown={handleKeyDown}
                         placeholder="Enter a new task"
-                        className={styles.newTodoInput}
+                        rows={1}
+                        className={styles.newTodoTextarea}
                     />
-                    <Button variant="green" className="rounded-xl" onClick={handleAdd}>
+                    <Button variant="green" className="rounded-xl self-start" onClick={handleAdd}>
                         Add
                     </Button>
                 </div>

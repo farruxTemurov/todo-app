@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 export default function useAutosizeTextArea(textAreaRef, value) {
-    useEffect(() => {
+    useLayoutEffect(() => {
         const el = textAreaRef.current;
         if (!el) return;
 
@@ -10,5 +10,6 @@ export default function useAutosizeTextArea(textAreaRef, value) {
 
         // Set height to match content
         el.style.height = `${el.scrollHeight}px`;
-    }, [value]);
+    }, [value, textAreaRef]);
 }
+

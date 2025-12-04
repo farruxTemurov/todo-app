@@ -19,10 +19,22 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo, setFeedback, setIsVi
 
     // Resize immediately when entering edit mode
     useLayoutEffect(() => {
-        if (isEditing && textAreaRef.current) {
-            textAreaRef.current.style.height = "auto";
-            textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
-        }
+        if (!isEditing) return;
+
+        const textarea = textAreaRef.current;
+        if (!textarea) return;
+
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+
+        textarea.focus();
+
+        requestAnimationFrame(() => {
+            if (textarea && typeof textarea.setSelectionRange === "function") {
+                const length = textarea.value.length;
+                textarea.setSelectionRange(length, length);
+            }
+        });
     }, [isEditing]);
 
     async function handleSave() {

@@ -55,9 +55,17 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo, setFeedback, setIsVi
     }, [isEditing]);
 
     async function handleSave() {
-        if (!editedText.trim()) return;
+        const trimmed = editedText.trim();
+        //If text is empty → do nothing
+        if (!trimmed) return;
 
-        await editTodo(todo._id, editedText.trim());
+        // If no real change → exit edit mode silently
+        if (trimmed === todo.text.trim()) {
+            setIsEditing(false);
+            return;
+        }
+        // Real change → update and show feedback
+        await editTodo(todo._id, trimmed);
         setIsEditing(false);
         setFeedback("✏️ Task updated!");
         setIsVisible(true);

@@ -1,16 +1,94 @@
 export const todoStyles = {
-    container: "min-h-screen bg-gray-100 text-gray-900 flex flex-col items-center py-10 px-4 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-500",
-    card: "w-full max-w-md bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 transition-all duration-500",
-    title: "text-3xl font-bold mb-6 text-center tracking-tight",
-    searchInput: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-400 transition",
-    newTodoInput: "flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 transition",
-    stats: "text-gray-700 dark:text-gray-300 mb-5 text-center",
-    counter: "inline-block font-semibold text-blue-600 dark:text-blue-400 transition-transform duration-300",
-    feedback: "transition-all duration-500 ease-in-out text-center mt-2 mb-2 delay-150",
-    todoList: "space-y-3",
+    container:
+        "min-h-screen bg-gray-100 text-gray-900 \
+         flex flex-col items-center \
+         py-10 px-4 \
+         dark:bg-gray-900 dark:text-gray-100 \
+         transition-colors duration-500",
+
+    card:
+        "w-full max-w-md \
+         bg-white dark:bg-gray-800 \
+         shadow-lg rounded-2xl \
+         p-6 \
+         transition-all duration-500",
+
+    title:
+        "text-3xl font-bold \
+         mb-6 \
+         text-center \
+         tracking-tight",
+
+    searchInput:
+        "w-full px-4 py-2 \
+         border border-gray-300 rounded-lg shadow-sm \
+         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent \
+         dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-400 \
+         transition",
+
+    newTodoInput:
+        "flex-1 px-4 py-2 \
+         border border-gray-300 rounded-lg shadow-sm \
+         focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
+         dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 \
+         transition",
+
+    stats:
+        "text-gray-700 dark:text-gray-300 \
+         mb-5 text-center",
+
+    counter:
+        "inline-block font-semibold \
+         text-blue-600 dark:text-blue-400 \
+         transition-transform duration-300",
+
+    feedback:
+        "transition-all duration-500 ease-in-out \
+         text-center \
+         mt-2 mb-2 \
+         delay-150",
+
+    todoList:
+        "space-y-3",
     newTodoTextarea:
-        "flex-1 px-4 py-2 min-h-[44px] max-h-[200px] overflow-hidden resize-none " +
-        "border border-gray-300 rounded-lg shadow-sm " +
-        "focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent " +
-        "dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 transition",
+        "flex-1 px-4 py-2 min-h-[44px] max-h-[200px] overflow-hidden resize-none \
+         border border-gray-300 rounded-lg shadow-sm \
+         focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
+         dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 transition",
+    todoItemContainer:
+        "flex items-center justify-between bg-gray-50 dark:bg-gray-700 \
+         px-4 py-2 rounded-xl shadow-sm hover:shadow-md \
+         transition-all duration-200 border border-transparent \
+         hover:border-gray-200 dark:hover:border-gray-600",
+
+    todoText:
+        "flex-1 cursor-pointer select-none text-sm sm:text-base transition",
+
+    todoTextDone:
+        "line-through text-gray-400 dark:text-gray-500",
+
+    todoTextActive:
+        "text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400",
+
+    editContainer: "flex-1 flex items-center gap-2",
+
+    editTextarea:
+        "flex-1 px-3 py-1.5 rounded-lg border border-gray-300 \
+         dark:border-gray-600 dark:bg-gray-800 \
+         focus:outline-none focus:ring-2 focus:ring-blue-500 \
+         text-sm transition resize-none overflow-hidden",
+
+    btnDelete:
+        "bg-red-500 text-white px-3 py-1.5 text-sm rounded-lg \
+         hover:bg-red-600 active:scale-95 transition-transform",
+
+    btnEdit:
+        "bg-yellow-400 text-gray-900 px-3 py-1.5 text-sm rounded-lg \
+         hover:bg-yellow-500 active:scale-95 transition-transform",
+
+    btnSave:
+        "bg-blue-500 text-white px-3 py-1.5 text-sm rounded-lg \
+         hover:bg-blue-600 active:scale-95 transition-transform",
+
+    btnGroup: "flex gap-2 ml-3",
 };

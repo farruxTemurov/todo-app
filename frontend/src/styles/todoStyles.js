@@ -91,4 +91,11 @@ export const todoStyles = {
          hover:bg-blue-600 active:scale-95 transition-transform",
 
     btnGroup: "flex gap-2 ml-3",
+    navbar:
+        "dark:bg-gray-900/80 backdrop-blur-md shadow-md sticky top-0 z-50 \
+          border-b border-gray-200 dark: border-gray-700 transition-all duration-300",
+    navbarInner: "max-w-4xl mx-auto flex justify-center py-4 px-6",
+    navbarLink:
+        "text-3xl font-extrabold text-cyan-400 hover:text-cyan-600 \
+         transition-transform duration-200 transform hover:scale-105",
 };

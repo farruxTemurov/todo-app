@@ -14,7 +14,7 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo, setFeedback, setIsVi
     };
     const editorRef = useRef(null);
 
-    const handleKeyDown = useCtrlEnterSave(textAreaRef, handleSave, editedText, cancelEdit);
+    const handleKeyDown = useCtrlEnterSave(textAreaRef, handleSave, cancelEdit);
 
     // Hook to resize textarea while typing
     useAutosizeTextArea(textAreaRef, editedText);

@@ -5,6 +5,7 @@ import useCountAnimation from "../hooks/useCountAnimation";
 import useAutosizeTextArea from "../hooks/useAutosizeTextArea";
 import Button from "../components/Button";
 import { todoStyles as styles } from "../styles/todoStyles";
+import useCtrlEnterSave from "../hooks/useCtrlEnterSave";
 
 function TodoPage() {
     const [newTodo, setNewTodo] = useState("");
@@ -63,21 +64,12 @@ function TodoPage() {
     const textAreaRef = useRef(null);
     useAutosizeTextArea(textAreaRef, newTodo);
 
-    const handleKeyDown = (e) => {
-        // Ctrl + Enter → Add todo
-        if (e.key === "Enter" && e.ctrlKey) {
-            e.preventDefault(); // Prevent adding new line
-            handleAdd();
-
-            // Clear textarea after add
-            setNewTodo("");
-
-            // Reset height
-            if (textAreaRef.current) {
-                textAreaRef.current.style.height = "auto";
-            }
-        }
+    const saveTodo = () => {
+        if (!newTodo.trim()) return;
+        handleAdd();
     };
+
+    const handleKeyDown = useCtrlEnterSave(textAreaRef, saveTodo, null);
 
     return (
         <div className={styles.container}>

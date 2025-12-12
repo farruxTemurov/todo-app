@@ -16,7 +16,11 @@ mongoose
 // Todo schema
 const todoSchema = new mongoose.Schema({
     text: { type: String, required: true },
-    done: { type: Boolean, default: false }
+    done: { type: Boolean, default: false },
+    title: String,
+    completed: Boolean,
+    category: { type: String, enum: ['Work', 'Home', 'Study', 'Shopping'], default: null },
+    tags: { type: [String], default: [] } // e.g. ["urgent","school"]
 });
 
 const Todo = mongoose.model('Todo', todoSchema);
@@ -28,7 +32,12 @@ app.get("/todos", async (req, res) => {
 });
 
 app.post("/todos", async (req, res) => {
-    const todo = await Todo.create({ text: req.body.text });
+    const todo = await Todo.create({
+        text: req.body.text,
+        title: req.body.title,
+        category: req.body.category || null,
+        tags: req.body.tags || []
+    });
     res.json(todo);
 });
 

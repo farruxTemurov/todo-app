@@ -98,6 +98,14 @@ function TodoPage() {
                         rows={1}
                         className={styles.newTodoTextarea}
                     />
+                    <select id="categorySelect">
+                        <option value="">No category</option>
+                        <option value="Work">Work</option>
+                        <option value="Home">Home</option>
+                        <option value="Study">Study</option>
+                        <option value="Shopping">Shopping</option>
+                    </select>
+                    <input id="tagsInput" type="text" placeholder="tags (comma separated)" />
                     <Button variant="green" className="rounded-xl self-start" onClick={handleAdd}>
                         Add
                     </Button>

@@ -21,7 +21,14 @@ export const useTodos = () => {
         const res = await fetch("http://localhost:5000/todos", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text })
+            body: JSON.stringify({
+                text,
+                category: document.getElementById("categorySelect").value,
+                tags: document.getElementById("tagsInput").value
+                    .split(',')
+                    .map(t => t.trim())
+                    .filter(t => t !== "")
+            })
         });
 
         const newTodo = await res.json();

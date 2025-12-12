@@ -117,7 +117,7 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo, setFeedback, setIsVi
                         className={`${todoStyles.todoText} ${todo.done ? todoStyles.todoTextDone : todoStyles.todoTextActive
                             }`}
                     >
-                        {todo.text}
+                        {todo.text + (todo.category ? `  [${todo.category}]` : "")}
                     </span>
 
                     <div className={todoStyles.btnGroup}>

@@ -119,6 +119,13 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo, setFeedback, setIsVi
                     >
                         {todo.text + (todo.category ? `  [${todo.category}]` : "")}
                     </span>
+                    {todo.tags && todo.tags.length > 0 && (
+                        <div className="flex gap-1 mt-1 text-sm opacity-70">
+                            {todo.tags.map(tag => (
+                                <span key={tag}>#{tag}</span>
+                            ))}
+                        </div>
+                    )}
 
                     <div className={todoStyles.btnGroup}>
                         <button onClick={handleDelete} className={todoStyles.btnDelete}>

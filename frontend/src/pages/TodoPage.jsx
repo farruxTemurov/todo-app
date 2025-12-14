@@ -37,9 +37,14 @@ function TodoPage() {
     const handleAdd = async () => {
         if (!newTodo.trim()) return;
 
-        await addTodo(newTodo.trim());
-        setNewTodo("");
+        const hashtagMatches = newTodo.match(/#\w+/g) || [];
+        const extractedTags = hashtagMatches.map(tag =>
+            tag.slice(1).toLowerCase()
+        );
+        const cleanText = newTodo.replace(/#\w+/g, "").trim();
 
+        await addTodo(cleanText, extractedTags);
+        setNewTodo("");
         setFeedback("✅ Task added!");
         setIsVisible(true);
         setFeedbackType("add");

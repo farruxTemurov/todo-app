@@ -17,16 +17,17 @@ export const useTodos = () => {
         todos.filter(todo => todo.text.toLowerCase().includes(searchTerm.toLowerCase()));
 
     // ADD todo
-    const addTodo = async (text, tags) => {
+    const addTodo = async (text, tags, category) => {
         const res = await fetch("http://localhost:5000/todos", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                text,
-                tags,
-                category: document.getElementById("categorySelect").value,
-            })
+            body: JSON.stringify({ text, tags, category })
         });
+
+        if (!res.ok) {
+            console.error("Failed to add todo");
+            return;
+        }
 
         const newTodo = await res.json();
         dispatch({ type: "ADD_TODO", payload: newTodo });

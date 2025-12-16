@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTodos } from "../hooks/useTodos";
-import TodoItem from "../components/TodoItem"
+import TodoItem from "../components/TodoItem";
 import useCountAnimation from "../hooks/useCountAnimation";
 import useAutosizeTextArea from "../hooks/useAutosizeTextArea";
 import Button from "../components/Button";
@@ -13,6 +13,8 @@ function TodoPage() {
     const [feedback, setFeedback] = useState("");
     const [isVisible, setIsVisible] = useState(false);
     const [feedbackType, setFeedbackType] = useState("default");
+    const [selectedTag, setSelectedTag] = useState(null);
+    const [category, setCategory] = useState("");
 
     const {
         todos,
@@ -25,6 +27,7 @@ function TodoPage() {
     } = useTodos();
 
     const completedRef = useRef(null);
+    const textAreaRef = useRef(null);
 
     const textColorObj = {
         add: "text-green-500",
@@ -34,6 +37,7 @@ function TodoPage() {
         default: "text-gray-400"
     };
 
+    /* -------------------- ADD TODO -------------------- */
     const handleAdd = async () => {
         if (!newTodo.trim()) return;
 
@@ -43,16 +47,27 @@ function TodoPage() {
         );
         const cleanText = newTodo.replace(/#\w+/g, "").trim();
 
-        await addTodo(cleanText, extractedTags);
+        await addTodo(cleanText, extractedTags, category);
         setNewTodo("");
+        setCategory("");
+        setSelectedTag(null);
         setFeedback("✅ Task added!");
         setIsVisible(true);
         setFeedbackType("add");
     };
 
-    const displayedTodos = filteredTodos(searchTerm);
+    /* -------------------- SEARCH + TAG FILTER -------------------- */
+    const searchedTodos = filteredTodos(searchTerm);
 
+    const visibleTodos = selectedTag
+        ? searchedTodos.filter(todo =>
+            todo.tags?.includes(selectedTag)
+        )
+        : searchedTodos;
+
+    /* -------------------- EFFECTS -------------------- */
     useCountAnimation(completedRef, completedCount);
+    useAutosizeTextArea(textAreaRef, newTodo);
 
     useEffect(() => {
         if (!feedback) return;
@@ -66,9 +81,6 @@ function TodoPage() {
         };
     }, [feedback]);
 
-    const textAreaRef = useRef(null);
-    useAutosizeTextArea(textAreaRef, newTodo);
-
     const saveTodo = () => {
         if (!newTodo.trim()) return;
         handleAdd();
@@ -81,37 +93,59 @@ function TodoPage() {
             <div className={styles.card}>
                 <h1 className={styles.title}>📝 Todo List</h1>
 
-                {/* Search bar */}
+                {/* Active tag filter */}
+                {selectedTag && (
+                    <div className="mb-3 flex items-center gap-2">
+                        <span className="text-sm opacity-70">Filtering by tag:</span>
+                        <span className={styles.activeTag}>#{selectedTag}</span>
+                        <button
+                            onClick={() => setSelectedTag(null)}
+                            className={styles.tag} // reuse tag style for consistency
+                        >
+                            Clear
+                        </button>
+                    </div>
+                )}
+
+                {/* Search */}
                 <div className="mb-4">
                     <input
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Search the list..."
+                        placeholder="Search tasks..."
                         className={styles.searchInput}
                     />
                 </div>
 
-                {/* New task input */}
-                <div className="flex gap-2 mb-6">
+                {/* New todo input */}
+                <div className="flex gap-2 mb-6 items-center">
                     <textarea
                         ref={textAreaRef}
                         value={newTodo}
                         onChange={(e) => setNewTodo(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Enter a new task"
+                        placeholder="Enter a new task (use #tags)"
                         rows={1}
                         className={styles.newTodoTextarea}
                     />
-                    <select id="categorySelect">
+                    <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className={styles.categorySelect}
+                    >
                         <option value="">No category</option>
                         <option value="Work">Work</option>
                         <option value="Home">Home</option>
                         <option value="Study">Study</option>
                         <option value="Shopping">Shopping</option>
                     </select>
-                    <input id="tagsInput" type="text" placeholder="tags (comma separated)" />
-                    <Button variant="green" className="rounded-xl self-start" onClick={handleAdd}>
+
+                    <Button
+                        variant="green"
+                        className="rounded-xl self-start"
+                        onClick={handleAdd}
+                    >
                         Add
                     </Button>
                 </div>
@@ -128,27 +162,34 @@ function TodoPage() {
                 {/* Feedback */}
                 <p
                     className={`${isVisible ? textColorObj[feedbackType] : ""} 
-                        ${styles.feedback} 
-                        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
+          ${styles.feedback} 
+          ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
                 >
                     {feedback}
                 </p>
 
                 {/* Todo list */}
                 <ul className={styles.todoList}>
-                    {displayedTodos.map((todo) => (
-                        <TodoItem
-                            key={todo._id} // 🚨 now _id, not id
-                            todo={todo}
-                            toggleTodo={toggleTodo}
-                            deleteTodo={deleteTodo}
-                            editTodo={editTodo}
-                            setFeedback={setFeedback}
-                            setIsVisible={setIsVisible}
-                            setFeedbackType={setFeedbackType}
-                            Button={Button}
-                        />
-                    ))}
+                    {visibleTodos.length === 0 ? (
+                        <li className={styles.tag + " opacity-60 py-6 text-center"}>
+                            No tasks found
+                        </li>
+                    ) : (
+                        visibleTodos.map((todo) => (
+                            <TodoItem
+                                key={todo._id}
+                                todo={todo}
+                                toggleTodo={toggleTodo}
+                                deleteTodo={deleteTodo}
+                                editTodo={editTodo}
+                                setFeedback={setFeedback}
+                                setIsVisible={setIsVisible}
+                                setFeedbackType={setFeedbackType}
+                                onTagClick={setSelectedTag}
+                                tagStyle={styles.tag} // pass style to TodoItem
+                            />
+                        ))
+                    )}
                 </ul>
             </div>
         </div>

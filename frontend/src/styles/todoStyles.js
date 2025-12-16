@@ -50,11 +50,13 @@ export const todoStyles = {
 
     todoList:
         "space-y-3",
+
     newTodoTextarea:
         "flex-1 px-4 py-2 min-h-[44px] max-h-[200px] overflow-hidden resize-none \
          border border-gray-300 rounded-lg shadow-sm \
          focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
          dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 transition",
+
     todoItemContainer:
         "flex items-center justify-between bg-gray-50 dark:bg-gray-700 \
          px-4 py-2 rounded-xl shadow-sm hover:shadow-md \
@@ -91,11 +93,38 @@ export const todoStyles = {
          hover:bg-blue-600 active:scale-95 transition-transform",
 
     btnGroup: "flex gap-2 ml-3",
+
     navbar:
         "dark:bg-gray-900/80 backdrop-blur-md shadow-md sticky top-0 z-50 \
           border-b border-gray-200 dark: border-gray-700 transition-all duration-300",
+
     navbarInner: "max-w-4xl mx-auto flex justify-center py-4 px-6",
+
     navbarLink:
         "text-3xl font-extrabold text-cyan-400 hover:text-cyan-600 \
          transition-transform duration-200 transform hover:scale-105",
+
+    categorySelect:
+        "h-[44px] px-3 \
+     border border-gray-300 rounded-lg shadow-sm \
+     bg-white text-sm \
+     focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
+     dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 \
+     transition",
+
+    tag:
+        "inline-block px-2 py-0.5 rounded-lg text-xs font-medium \
+     bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 cursor-pointer \
+     hover:bg-gray-300 dark:hover:bg-gray-600 transition",
+
+    activeTag:
+        "inline-block px-2 py-0.5 rounded-lg text-sm font-medium \
+     bg-blue-100 dark:bg-blue-700 text-blue-700 dark:text-blue-100",
+
+    categoryBadge:
+        "inline-block mt-1 px-2 py-0.5 rounded-lg text-xs font-medium \
+     bg-blue-100 dark:bg-blue-700 text-blue-700 dark:text-blue-100",
+
+    tagsContainer:
+        "flex gap-2 mt-1 flex-wrap",
 };

@@ -100,7 +100,7 @@ function TodoPage() {
                         <span className={styles.activeTag}>#{selectedTag}</span>
                         <button
                             onClick={() => setSelectedTag(null)}
-                            className={styles.tag} // reuse tag style for consistency
+                            className={styles.tag}
                         >
                             Clear
                         </button>
@@ -119,32 +119,36 @@ function TodoPage() {
                 </div>
 
                 {/* New todo input */}
-                <div className="flex gap-2 mb-6 items-center">
-                    <textarea
-                        ref={textAreaRef}
-                        value={newTodo}
-                        onChange={(e) => setNewTodo(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Enter a new task (use #tags)"
-                        rows={1}
-                        className={styles.newTodoTextarea}
-                    />
-                    <select
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        className={styles.categorySelect}
-                    >
-                        <option value="">No category</option>
-                        <option value="Work">Work</option>
-                        <option value="Home">Home</option>
-                        <option value="Study">Study</option>
-                        <option value="Shopping">Shopping</option>
-                    </select>
+                <div className="mb-6">
+                    {/* Input + category row */}
+                    <div className="flex gap-2 mb-2">
+                        <input
+                            type="text"
+                            value={newTodo}
+                            onChange={(e) => setNewTodo(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Add a new task (#tags)"
+                            className={styles.newTodoInput}
+                        />
 
+                        <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className={styles.categorySelect}
+                        >
+                            <option value="">No category</option>
+                            <option value="Work">Work</option>
+                            <option value="Home">Home</option>
+                            <option value="Study">Study</option>
+                            <option value="Shopping">Shopping</option>
+                        </select>
+                    </div>
+
+                    {/* Add button row */}
                     <Button
                         variant="green"
-                        className="rounded-xl self-start"
                         onClick={handleAdd}
+                        className="w-full"
                     >
                         Add
                     </Button>

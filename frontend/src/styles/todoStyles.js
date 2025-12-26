@@ -52,10 +52,10 @@ export const todoStyles = {
         "space-y-3",
 
     newTodoTextarea:
-        "flex-1 px-4 py-2 min-h-[44px] max-h-[200px] overflow-hidden resize-none \
-         border border-gray-300 rounded-lg shadow-sm \
-         focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
-         dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 transition",
+        "flex-1 px-4 py-2 h-[44px] max-h-[200px] overflow-hidden resize-none \
+        border border-gray-300 rounded-lg shadow-sm \
+        focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
+        dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 transition",
 
     todoItemContainer:
         "flex items-center justify-between bg-gray-50 dark:bg-gray-700 \
@@ -106,11 +106,11 @@ export const todoStyles = {
 
     categorySelect:
         "h-[44px] px-3 \
-     border border-gray-300 rounded-lg shadow-sm \
-     bg-white text-sm \
-     focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
-     dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 \
-     transition",
+        border border-gray-300 rounded-lg shadow-sm \
+        bg-white text-sm \
+        focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
+        dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 \
+        transition",
 
     tag:
         "inline-block px-2 py-0.5 rounded-lg text-xs font-medium \
@@ -127,4 +127,6 @@ export const todoStyles = {
 
     tagsContainer:
         "flex gap-2 mt-1 flex-wrap",
+    newTodoButton:
+        "h-[44px] px-4",
 };

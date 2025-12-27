@@ -18,7 +18,7 @@ export default function Button({
 
     const variants = {
         default: "bg-gray-200 text-black hover:bg-gray-300",
-        green: "bg-green-500 text-white hover:bg-green-600",
+        sky: "bg-sky-600 text-white hover:bg-sky-700",
         red: "bg-red-500 text-white hover:bg-red-600",
         darkYellow: "bg-yellow-600 text-white hover:bg-yellow-700"
     };

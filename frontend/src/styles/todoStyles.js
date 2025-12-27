@@ -30,7 +30,7 @@ export const todoStyles = {
         "flex-1 px-4 py-2 \
          border border-gray-300 rounded-lg shadow-sm \
          focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
-         dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 \
+         dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-400 \
          transition",
 
     stats:
@@ -108,7 +108,7 @@ export const todoStyles = {
         "h-[44px] px-3 \
         border border-gray-300 rounded-lg shadow-sm \
         bg-white text-sm \
-        focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent \
+        focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent \
         dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 \
         transition",
 
@@ -129,4 +129,12 @@ export const todoStyles = {
         "flex gap-2 mt-1 flex-wrap",
     newTodoButton:
         "h-[44px] px-4",
+    emptyState:
+        "w-full py-8 text-center \
+        text-base font-medium \
+        text-gray-500 dark:text-gray-400 \
+        bg-gray-100 dark:bg-gray-800 \
+        rounded-xl border border-dashed \
+        border-gray-300 dark:border-gray-600 \
+        transition",
 };

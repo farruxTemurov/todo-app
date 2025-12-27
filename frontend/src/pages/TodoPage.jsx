@@ -146,7 +146,7 @@ function TodoPage() {
 
                     {/* Add button row */}
                     <Button
-                        variant="green"
+                        variant="sky"
                         onClick={handleAdd}
                         className="w-full"
                     >
@@ -175,7 +175,7 @@ function TodoPage() {
                 {/* Todo list */}
                 <ul className={styles.todoList}>
                     {visibleTodos.length === 0 ? (
-                        <li className={styles.tag + " opacity-60 py-6 text-center"}>
+                        <li className={styles.emptyState}>
                             No tasks found
                         </li>
                     ) : (

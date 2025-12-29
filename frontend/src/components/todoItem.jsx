@@ -122,50 +122,45 @@ const TodoItem = ({
             ) : (
                 <>
                     {/* Todo text */}
-                    <span
-                        onClick={handleToggle}
-                        className={`${todoStyles.todoText} ${todo.done
-                                ? todoStyles.todoTextDone
-                                : todoStyles.todoTextActive
-                            }`}
-                    >
-                        {todo.text}
-                    </span>
-
-                    {/* Category badge */}
-                    {todo.category && (
-                        <span className={todoStyles.categoryBadge}>
-                            {todo.category}
+                    <div className="flex-1 min-w-0">
+                        {/* Text */}
+                        <span
+                            onClick={handleToggle}
+                            className={`${todoStyles.todoText} ${todo.done ? todoStyles.todoTextDone : todoStyles.todoTextActive
+                                }`}
+                        >
+                            {todo.text}
                         </span>
-                    )}
 
-                    {/* Tags */}
-                    {todo.tags?.length > 0 && (
-                        <div className={todoStyles.tagsContainer}>
-                            {todo.tags.map((tag) => (
+                        {/* Meta row */}
+                        <div className="flex flex-wrap items-center gap-2 mt-1">
+                            {todo.category && (
+                                <span className={todoStyles.categoryBadge}>
+                                    {todo.category}
+                                </span>
+                            )}
+
+                            {todo.tags?.map(tag => (
                                 <span
                                     key={tag}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onTagClick(tag);
                                     }}
-                                    className={todoStyles.tag} // reuse tag style from todoStyles
+                                    className={todoStyles.tag}
                                 >
                                     #{tag}
                                 </span>
                             ))}
                         </div>
-                    )}
+                    </div>
 
                     {/* Buttons */}
                     <div className={todoStyles.btnGroup}>
                         <button onClick={handleDelete} className={todoStyles.btnDelete}>
                             Delete
                         </button>
-                        <button
-                            onClick={() => setIsEditing(true)}
-                            className={todoStyles.btnEdit}
-                        >
+                        <button onClick={() => setIsEditing(true)} className={todoStyles.btnEdit}>
                             Edit
                         </button>
                     </div>

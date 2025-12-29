@@ -125,7 +125,7 @@ export const todoStyles = {
     categoryBadge:
         "inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium \
     bg-blue-100 dark:bg-blue-700 \
-    text-blue-700 dark:text-blue-100",
+    text-blue-700 dark:text-blue-100 relative top-[1px]",
 
     tagsContainer:
         "flex gap-2 mt-1 flex-wrap",

@@ -17,11 +17,11 @@ export const useTodos = () => {
         todos.filter(todo => todo.text.toLowerCase().includes(searchTerm.toLowerCase()));
 
     // ADD todo
-    const addTodo = async (text, tags, category) => {
+    const addTodo = async (text, tags, category, priority) => {
         const res = await fetch("http://localhost:5000/todos", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text, tags, category })
+            body: JSON.stringify({ text, tags, category, priority })
         });
 
         if (!res.ok) {

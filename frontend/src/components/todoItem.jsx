@@ -11,10 +11,13 @@ const TodoItem = ({
     setFeedback,
     setIsVisible,
     setFeedbackType,
-    onTagClick
+    onTagClick,
+    PRIORITIES,
+    todoPriority
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText] = useState(todo.text);
+    const [priority, setPriority] = useState(todo.priority || "medium");
 
     const textAreaRef = useRef(null);
     const editorRef = useRef(null);
@@ -96,6 +99,13 @@ const TodoItem = ({
         setFeedbackType("delete");
     }
 
+    const handlePriorityChange = async (e) => {
+        const newPriority = e.target.value;
+        setPriority(newPriority);
+        await editTodo(todo._id, { priority: newPriority });
+    };
+
+
     /* -------------------- UI -------------------- */
     return (
         <li className={todoStyles.todoItemContainer}>
@@ -152,6 +162,18 @@ const TodoItem = ({
                                     #{tag}
                                 </span>
                             ))}
+                            <select
+                                value={priority}
+                                onChange={handlePriorityChange}
+                                className={todoStyles.categorySelect}
+                            >
+                                {PRIORITIES.map(p => (
+                                    <option key={p} value={p}>
+                                        {p.charAt(0).toUpperCase() + p.slice(1)}
+                                    </option>
+                                ))}
+                            </select>
+
                         </div>
                     </div>
 

@@ -15,6 +15,8 @@ function TodoPage() {
     const [feedbackType, setFeedbackType] = useState("default");
     const [selectedTag, setSelectedTag] = useState(null);
     const [category, setCategory] = useState("");
+    const PRIORITIES = ["low", "medium", "high", "urgent"];
+    const [priority, setPriority] = useState("");
 
     const {
         todos,
@@ -42,27 +44,23 @@ function TodoPage() {
         if (!newTodo.trim()) return;
 
         const hashtagMatches = newTodo.match(/#\w+/g) || [];
-        const extractedTags = hashtagMatches.map(tag =>
-            tag.slice(1).toLowerCase()
-        );
+        const extractedTags = hashtagMatches.map(tag => tag.slice(1).toLowerCase());
         const cleanText = newTodo.replace(/#\w+/g, "").trim();
 
-        await addTodo(cleanText, extractedTags, category);
+        await addTodo(cleanText, extractedTags, category, priority || "medium");
         setNewTodo("");
         setCategory("");
         setSelectedTag(null);
         setFeedback("✅ Task added!");
         setIsVisible(true);
         setFeedbackType("add");
+        setPriority("medium");  // reset to default priority
     };
 
     /* -------------------- SEARCH + TAG FILTER -------------------- */
     const searchedTodos = filteredTodos(searchTerm);
-
     const visibleTodos = selectedTag
-        ? searchedTodos.filter(todo =>
-            todo.tags?.includes(selectedTag)
-        )
+        ? searchedTodos.filter(todo => todo.tags?.includes(selectedTag))
         : searchedTodos;
 
     /* -------------------- EFFECTS -------------------- */
@@ -119,22 +117,23 @@ function TodoPage() {
                 </div>
 
                 {/* New todo input */}
-                <div className="mb-6">
-                    {/* Input + category row */}
-                    <div className="flex gap-2 mb-2">
-                        <input
-                            type="text"
-                            value={newTodo}
-                            onChange={(e) => setNewTodo(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            placeholder="Add a new task (#tags)"
-                            className={styles.newTodoInput}
-                        />
+                <div className="mb-6 w-full flex flex-col gap-2">
+                    {/* Input */}
+                    <input
+                        type="text"
+                        value={newTodo}
+                        onChange={(e) => setNewTodo(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Add a new task (#tags)"
+                        className={styles.newTodoInput}
+                    />
 
+                    {/* Dropdowns */}
+                    <div className="flex gap-2 w-full">
                         <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className={styles.categorySelect}
+                            className={`${styles.categorySelect} flex-1`}
                         >
                             <option value="">No category</option>
                             <option value="Work">Work</option>
@@ -142,13 +141,26 @@ function TodoPage() {
                             <option value="Study">Study</option>
                             <option value="Shopping">Shopping</option>
                         </select>
+
+                        <select
+                            value={priority}
+                            onChange={(e) => setPriority(e.target.value)}
+                            className={`${styles.categorySelect} flex-1`}
+                        >
+                            <option value="">No priority</option>
+                            {PRIORITIES.map((p) => (
+                                <option key={p} value={p}>
+                                    {p.charAt(0).toUpperCase() + p.slice(1)}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
-                    {/* Add button row */}
+                    {/* Add button */}
                     <Button
                         variant="sky"
                         onClick={handleAdd}
-                        className="w-full"
+                        className="w-full mt-2"
                     >
                         Add
                     </Button>
@@ -175,9 +187,7 @@ function TodoPage() {
                 {/* Todo list */}
                 <ul className={styles.todoList}>
                     {visibleTodos.length === 0 ? (
-                        <li className={styles.emptyState}>
-                            No tasks found
-                        </li>
+                        <li className={styles.emptyState}>No tasks found</li>
                     ) : (
                         visibleTodos.map((todo) => (
                             <TodoItem
@@ -190,7 +200,8 @@ function TodoPage() {
                                 setIsVisible={setIsVisible}
                                 setFeedbackType={setFeedbackType}
                                 onTagClick={setSelectedTag}
-                                tagStyle={styles.tag} // pass style to TodoItem
+                                PRIORITIES={PRIORITIES}
+                                todoPriority={todo.priority}
                             />
                         ))
                     )}
@@ -198,6 +209,7 @@ function TodoPage() {
             </div>
         </div>
     );
+
 }
 
 export default TodoPage;

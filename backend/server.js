@@ -19,8 +19,17 @@ const todoSchema = new mongoose.Schema({
     done: { type: Boolean, default: false },
     title: String,
     completed: Boolean,
-    category: { type: String, enum: ['Work', 'Home', 'Study', 'Shopping'], default: null },
-    tags: { type: [String], default: [] } // e.g. ["urgent","school"]
+    category: {
+        type: String,
+        enum: ["Work", "Home", "Study", "Shopping"],
+        default: null
+    },
+    tags: { type: [String], default: [] }, // e.g. ["urgent","school"]
+    priority: {
+        type: String,
+        enum: ["low", "medium", "high", "urgent"],
+        default: "medium"
+    }
 });
 
 const Todo = mongoose.model('Todo', todoSchema);
@@ -36,7 +45,8 @@ app.post("/todos", async (req, res) => {
         text: req.body.text,
         title: req.body.title,
         category: req.body.category || null,
-        tags: req.body.tags || []
+        tags: req.body.tags || [],
+        priority: req.body.priority || "medium"
     });
     res.json(todo);
 });

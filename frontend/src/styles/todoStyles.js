@@ -64,7 +64,7 @@ export const todoStyles = {
          hover:border-gray-200 dark:hover:border-gray-600",
 
     todoText:
-        "flex-1 cursor-pointer select-none text-sm sm:text-base transition",
+        "flex-1 min-w-0 cursor-pointer select-none text-sm sm:text-base transition",
 
     todoTextDone:
         "line-through text-gray-400 dark:text-gray-500",
@@ -113,17 +113,19 @@ export const todoStyles = {
         transition",
 
     tag:
-        "inline-block px-2 py-0.5 rounded-lg text-xs font-medium \
-     bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 cursor-pointer \
-     hover:bg-gray-300 dark:hover:bg-gray-600 transition",
+        "inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium \
+        bg-gray-200 dark:bg-gray-700 \
+        text-gray-800 dark:text-gray-100 cursor-pointer \
+        hover:bg-gray-300 dark:hover:bg-gray-600 transition",
 
     activeTag:
         "inline-block px-2 py-0.5 rounded-lg text-sm font-medium \
      bg-blue-100 dark:bg-blue-700 text-blue-700 dark:text-blue-100",
 
     categoryBadge:
-        "inline-block mt-1 px-2 py-0.5 rounded-lg text-xs font-medium \
-     bg-blue-100 dark:bg-blue-700 text-blue-700 dark:text-blue-100",
+        "inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium \
+    bg-blue-100 dark:bg-blue-700 \
+    text-blue-700 dark:text-blue-100",
 
     tagsContainer:
         "flex gap-2 mt-1 flex-wrap",

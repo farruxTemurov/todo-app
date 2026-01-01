@@ -120,20 +120,34 @@ const TodoItem = ({
                         rows={1}
                     />
 
-                    <div className={todoStyles.btnGroup}>
-                        <button onClick={handleSave} className={todoStyles.btnSave}>
-                            Save
-                        </button>
-                        <button onClick={cancelEdit} className={todoStyles.btnEdit}>
-                            Cancel
-                        </button>
+                    {/* bottom row */}
+                    <div className="flex items-center justify-between gap-2 mt-2 w-full">
+                        <select
+                            value={priority}
+                            onChange={handlePriorityChange}
+                            className={todoStyles.categorySelect}
+                        >
+                            {PRIORITIES.map((p) => (
+                                <option key={p} value={p}>
+                                    {p.charAt(0).toUpperCase() + p.slice(1)}
+                                </option>
+                            ))}
+                        </select>
+
+                        <div className={todoStyles.btnGroup}>
+                            <button onClick={handleSave} className={todoStyles.btnSave}>
+                                Save
+                            </button>
+                            <button onClick={cancelEdit} className={todoStyles.btnEdit}>
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             ) : (
                 <>
                     {/* Todo text */}
                     <div className="flex-1 min-w-0">
-                        {/* Text */}
                         <span
                             onClick={handleToggle}
                             className={`${todoStyles.todoText} ${todo.done ? todoStyles.todoTextDone : todoStyles.todoTextActive
@@ -143,14 +157,21 @@ const TodoItem = ({
                         </span>
 
                         {/* Meta row */}
-                        <div className="flex flex-wrap items-center gap-2 mt-1">
+                        <div className={todoStyles.tagsContainer}>
                             {todo.category && (
-                                <span className={todoStyles.categoryBadge}>
-                                    {todo.category}
+                                <span className={todoStyles.categoryBadge}>{todo.category}</span>
+                            )}
+
+                            {todo.priority && (
+                                <span
+                                    className={`${todoStyles.priorityBadge[todo.priority]} px-2 py-0.5 rounded-full text-xs capitalize`}
+                                >
+                                    {["high", "urgent"].includes(todo.priority) ? "⚡ " : ""}
+                                    {todo.priority}
                                 </span>
                             )}
 
-                            {todo.tags?.map(tag => (
+                            {todo.tags?.map((tag) => (
                                 <span
                                     key={tag}
                                     onClick={(e) => {
@@ -162,22 +183,10 @@ const TodoItem = ({
                                     #{tag}
                                 </span>
                             ))}
-                            <select
-                                value={priority}
-                                onChange={handlePriorityChange}
-                                className={todoStyles.categorySelect}
-                            >
-                                {PRIORITIES.map(p => (
-                                    <option key={p} value={p}>
-                                        {p.charAt(0).toUpperCase() + p.slice(1)}
-                                    </option>
-                                ))}
-                            </select>
-
                         </div>
                     </div>
 
-                    {/* Buttons */}
+                    {/* Action buttons */}
                     <div className={todoStyles.btnGroup}>
                         <button onClick={handleDelete} className={todoStyles.btnDelete}>
                             Delete

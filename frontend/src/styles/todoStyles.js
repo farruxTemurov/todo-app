@@ -72,13 +72,13 @@ export const todoStyles = {
     todoTextActive:
         "text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400",
 
-    editContainer: "flex-1 flex items-center gap-2",
+    editContainer: "flex-1 flex flex-col w-full gap-2",
 
     editTextarea:
-        "flex-1 px-3 py-1.5 rounded-lg border border-gray-300 \
+        "w-full px-3 py-1.5 rounded-lg border border-gray-300 \
          dark:border-gray-600 dark:bg-gray-800 \
          focus:outline-none focus:ring-2 focus:ring-blue-500 \
-         text-sm transition resize-none overflow-hidden",
+         text-sm transition resize-none overflow-hidden ",
 
     btnDelete:
         "bg-red-500 text-white px-3 py-1.5 text-sm rounded-lg \
@@ -139,4 +139,10 @@ export const todoStyles = {
         rounded-xl border border-dashed \
         border-gray-300 dark:border-gray-600 \
         transition",
+    priorityBadge: {
+        low: "bg-gray-100 text-gray-700",
+        medium: "bg-blue-100 text-blue-700",
+        high: "bg-orange-100 text-orange-700",
+        urgent: "bg-red-100 text-red-700 font-semibold",
+    },
 };

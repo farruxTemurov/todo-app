@@ -52,11 +52,11 @@ export const useTodos = () => {
     };
 
     // EDIT todo
-    const editTodo = async (id, text) => {
+    const editTodo = async (id, updates) => {
         const res = await fetch(`http://localhost:5000/todos/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text })
+            body: JSON.stringify(updates)
         });
 
         const updated = await res.json();

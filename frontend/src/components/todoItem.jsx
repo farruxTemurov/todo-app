@@ -78,7 +78,7 @@ const TodoItem = ({
             return;
         }
 
-        await editTodo(todo._id, trimmed);
+        await editTodo(todo._id, { text: trimmed });
         setIsEditing(false);
         setFeedback("✏️ Task updated!");
         setIsVisible(true);

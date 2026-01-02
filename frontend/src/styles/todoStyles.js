@@ -145,4 +145,9 @@ export const todoStyles = {
         high: "bg-orange-100 text-orange-700",
         urgent: "bg-red-100 text-red-700 font-semibold",
     },
+    separatorLine:
+        "relative my-4 h-px \
+        bg-gradient-to-r \
+        from-transparent via-zinc-300/70 to-transparent \
+        transition-all duration-300 ease-out",
 };

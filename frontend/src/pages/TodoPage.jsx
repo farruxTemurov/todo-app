@@ -209,20 +209,33 @@ function TodoPage() {
                     {sortedTodos.length === 0 ? (
                         <li className={styles.emptyState}>No tasks found</li>
                     ) : (
-                        sortedTodos.map((todo) => (
-                            <TodoItem
-                                key={todo._id}
-                                todo={todo}
-                                toggleTodo={toggleTodo}
-                                deleteTodo={deleteTodo}
-                                editTodo={editTodo}
-                                setFeedback={setFeedback}
-                                setIsVisible={setIsVisible}
-                                setFeedbackType={setFeedbackType}
-                                onTagClick={setSelectedTag}
-                                PRIORITIES={PRIORITIES}
-                            />
-                        ))
+                        sortedTodos.map((todo, index) => {
+                            const isFirstCompleted =
+                                todo.done && (index === 0 || !sortedTodos[index - 1].done);
+
+                            return (
+                                <div key={todo._id} className="w-full">
+                                    {/* Separator before first completed todo */}
+                                    {isFirstCompleted && (
+                                        <div
+                                            className={styles.separatorLine}
+                                        />
+                                    )}
+
+                                    <TodoItem
+                                        todo={todo}
+                                        toggleTodo={toggleTodo}
+                                        deleteTodo={deleteTodo}
+                                        editTodo={editTodo}
+                                        setFeedback={setFeedback}
+                                        setIsVisible={setIsVisible}
+                                        setFeedbackType={setFeedbackType}
+                                        onTagClick={setSelectedTag}
+                                        PRIORITIES={PRIORITIES}
+                                    />
+                                </div>
+                            );
+                        })
                     )}
                 </ul>
             </div>

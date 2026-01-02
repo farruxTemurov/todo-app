@@ -17,6 +17,12 @@ function TodoPage() {
     const [category, setCategory] = useState("");
     const PRIORITIES = ["low", "medium", "high", "urgent"];
     const [priority, setPriority] = useState("");
+    const PRIORITY_ORDER = {
+        urgent: 4,
+        high: 3,
+        medium: 2,
+        low: 1,
+    };
 
     const {
         todos,
@@ -62,6 +68,20 @@ function TodoPage() {
     const visibleTodos = selectedTag
         ? searchedTodos.filter(todo => todo.tags?.includes(selectedTag))
         : searchedTodos;
+
+    /* -------------------- SORTING -------------------- */
+    const sortedTodos = [...visibleTodos].sort((a, b) => {
+        // Completed todos go last
+        if (a.done !== b.done) {
+            return a.done ? 1 : -1;
+        }
+
+        // sort by priority
+        const pa = PRIORITY_ORDER[a.priority] ?? 0;
+        const pb = PRIORITY_ORDER[b.priority] ?? 0;
+
+        return pb - pa;
+    });
 
     /* -------------------- EFFECTS -------------------- */
     useCountAnimation(completedRef, completedCount);
@@ -186,10 +206,10 @@ function TodoPage() {
 
                 {/* Todo list */}
                 <ul className={styles.todoList}>
-                    {visibleTodos.length === 0 ? (
+                    {sortedTodos.length === 0 ? (
                         <li className={styles.emptyState}>No tasks found</li>
                     ) : (
-                        visibleTodos.map((todo) => (
+                        sortedTodos.map((todo) => (
                             <TodoItem
                                 key={todo._id}
                                 todo={todo}
@@ -201,7 +221,6 @@ function TodoPage() {
                                 setFeedbackType={setFeedbackType}
                                 onTagClick={setSelectedTag}
                                 PRIORITIES={PRIORITIES}
-                                todoPriority={todo.priority}
                             />
                         ))
                     )}

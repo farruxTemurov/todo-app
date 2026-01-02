@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import useAutosizeTextArea from "../hooks/useAutosizeTextArea";
 import useCtrlEnterSave from "../hooks/useCtrlEnterSave";
@@ -108,9 +109,24 @@ const TodoItem = ({
 
     /* -------------------- UI -------------------- */
     return (
-        <li className={todoStyles.todoItemContainer}>
+        <motion.li
+            layout // enables smooth position animations when items move
+            initial={{ opacity: 0, y: 10 }} // fade + slight slide in
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }} // fade + slight slide out on deletion
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className={`${todoStyles.todoItemContainer} ${todoStyles.animatedContainer}`}
+        >
             {isEditing ? (
-                <div ref={editorRef} className={todoStyles.editContainer}>
+                <motion.div
+                    ref={editorRef}
+                    layout // smooth layout animation even in edit mode
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className={todoStyles.editContainer}
+                >
                     <textarea
                         ref={textAreaRef}
                         value={editedText}
@@ -120,7 +136,7 @@ const TodoItem = ({
                         rows={1}
                     />
 
-                    {/* bottom row */}
+                    {/* Bottom row: priority + buttons */}
                     <div className="flex items-center justify-between gap-2 mt-2 w-full">
                         <select
                             value={priority}
@@ -143,18 +159,30 @@ const TodoItem = ({
                             </button>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             ) : (
-                <>
+                <motion.div
+                    layout // smooth layout updates when toggled done
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center w-full"
+                >
                     {/* Todo text */}
                     <div className="flex-1 min-w-0">
-                        <span
+                        <motion.span
                             onClick={handleToggle}
-                            className={`${todoStyles.todoText} ${todo.done ? todoStyles.todoTextDone : todoStyles.todoTextActive
-                                }`}
+                            layout // animate text changes
+                            animate={{ opacity: todo.done ? 0.6 : 1 }}
+                            transition={{ duration: 0.3 }}
+                            className={`
+              ${todoStyles.todoText}
+              ${todo.done ? todoStyles.todoTextDone : todoStyles.todoTextActive}
+            `}
                         >
                             {todo.text}
-                        </span>
+                        </motion.span>
 
                         {/* Meta row */}
                         <div className={todoStyles.tagsContainer}>
@@ -195,9 +223,9 @@ const TodoItem = ({
                             Edit
                         </button>
                     </div>
-                </>
+                </motion.div>
             )}
-        </li>
+        </motion.li>
     );
 };
 

@@ -150,4 +150,13 @@ export const todoStyles = {
         bg-gradient-to-r \
         from-transparent via-zinc-300/70 to-transparent \
         transition-all duration-300 ease-out",
+    animatedContainer:
+        "transition-transform duration-300 ease-out",
+    todoTextDone:
+        "line-through text-gray-400 dark:text-gray-500 \
+         transition-opacity duration-300 ease-out",
+    todoTextActive:
+        "text-gray-800 dark:text-gray-100 hover:text-blue-600 \
+         dark:hover:text-blue-400 transition-opacity duration-300 ease-out",
+
 };

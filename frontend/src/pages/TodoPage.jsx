@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { useTodos } from "../hooks/useTodos";
 import TodoItem from "../components/TodoItem";
@@ -138,7 +139,6 @@ function TodoPage() {
 
                 {/* New todo input */}
                 <div className="mb-6 w-full flex flex-col gap-2">
-                    {/* Input */}
                     <input
                         type="text"
                         value={newTodo}
@@ -148,7 +148,6 @@ function TodoPage() {
                         className={styles.newTodoInput}
                     />
 
-                    {/* Dropdowns */}
                     <div className="flex gap-2 w-full">
                         <select
                             value={category}
@@ -176,7 +175,6 @@ function TodoPage() {
                         </select>
                     </div>
 
-                    {/* Add button */}
                     <Button
                         variant="sky"
                         onClick={handleAdd}
@@ -196,13 +194,14 @@ function TodoPage() {
                 </p>
 
                 {/* Feedback */}
-                <p
-                    className={`${isVisible ? textColorObj[feedbackType] : ""} 
-          ${styles.feedback} 
-          ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
+                <motion.p
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 5 }}
+                    transition={{ duration: 0.3 }}
+                    className={`${textColorObj[feedbackType]} ${styles.feedback}`}
                 >
                     {feedback}
-                </p>
+                </motion.p>
 
                 {/* Todo list */}
                 <ul className={styles.todoList}>
@@ -214,10 +213,15 @@ function TodoPage() {
                                 todo.done && (index === 0 || !sortedTodos[index - 1].done);
 
                             return (
-                                <div key={todo._id} className="w-full">
+                                <motion.div
+                                    key={todo._id}
+                                    layout // animate position changes
+                                    className="w-full"
+                                >
                                     {/* Separator before first completed todo */}
                                     {isFirstCompleted && (
-                                        <div
+                                        <motion.div
+                                            layout // animate separator appearing
                                             className={styles.separatorLine}
                                         />
                                     )}
@@ -233,7 +237,7 @@ function TodoPage() {
                                         onTagClick={setSelectedTag}
                                         PRIORITIES={PRIORITIES}
                                     />
-                                </div>
+                                </motion.div>
                             );
                         })
                     )}

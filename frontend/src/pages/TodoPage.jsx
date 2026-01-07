@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { useTodos } from "../hooks/useTodos";
 import TodoItem from "../components/TodoItem";
@@ -113,18 +113,27 @@ function TodoPage() {
                 <h1 className={styles.title}>📝 Todo List</h1>
 
                 {/* Active tag filter */}
-                {selectedTag && (
-                    <div className="mb-3 flex items-center gap-2">
-                        <span className="text-sm opacity-70">Filtering by tag:</span>
-                        <span className={styles.activeTag}>#{selectedTag}</span>
-                        <button
-                            onClick={() => setSelectedTag(null)}
-                            className={styles.tag}
+                <AnimatePresence>
+                    {selectedTag && (
+                        <motion.div
+                            key="tagFilter"
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -5 }}
+                            transition={{ duration: 0.2 }}
+                            className="mb-3 flex items-center gap-2"
                         >
-                            Clear
-                        </button>
-                    </div>
-                )}
+                            <span className="text-sm opacity-70">Filtering by tag:</span>
+                            <span className={styles.activeTag}>#{selectedTag}</span>
+                            <button
+                                onClick={() => setSelectedTag(null)}
+                                className={styles.tag}
+                            >
+                                Clear
+                            </button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Search */}
                 <div className="mb-4">
@@ -175,11 +184,7 @@ function TodoPage() {
                         </select>
                     </div>
 
-                    <Button
-                        variant="sky"
-                        onClick={handleAdd}
-                        className="w-full mt-2"
-                    >
+                    <Button variant="sky" onClick={handleAdd} className="w-full mt-2">
                         Add
                     </Button>
                 </div>
@@ -205,47 +210,68 @@ function TodoPage() {
 
                 {/* Todo list */}
                 <ul className={styles.todoList}>
-                    {sortedTodos.length === 0 ? (
-                        <li className={styles.emptyState}>No tasks found</li>
-                    ) : (
-                        sortedTodos.map((todo, index) => {
-                            const isFirstCompleted =
-                                todo.done && (index === 0 || !sortedTodos[index - 1].done);
+                    <AnimatePresence>
+                        {sortedTodos.length === 0 ? (
+                            <motion.li
+                                key="empty"
+                                initial={{ opacity: 0, y: 5 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 5 }}
+                                transition={{ duration: 0.25 }}
+                                className={styles.emptyState}
+                            >
+                                No tasks found
+                            </motion.li>
+                        ) : (
+                            sortedTodos.map((todo, index) => {
+                                const isFirstCompleted =
+                                    todo.done &&
+                                    (index === 0 || !sortedTodos[index - 1].done);
 
-                            return (
-                                <motion.div
-                                    key={todo._id}
-                                    layout // animate position changes
-                                    className="w-full"
-                                >
-                                    {/* Separator before first completed todo */}
-                                    {isFirstCompleted && (
-                                        <motion.div
-                                            layout // animate separator appearing
-                                            className={styles.separatorLine}
+                                return (
+                                    <motion.div
+                                        key={todo._id}
+                                        layout
+                                        initial={{ opacity: 0, y: 6 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -6 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="w-full"
+                                    >
+                                        {/* Separator before first completed todo */}
+                                        <AnimatePresence>
+                                            {isFirstCompleted && (
+                                                <motion.div
+                                                    layout
+                                                    initial={{ opacity: 0, height: 0 }}
+                                                    animate={{ opacity: 1, height: 1 }}
+                                                    exit={{ opacity: 0, height: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className={styles.separatorLine}
+                                                />
+                                            )}
+                                        </AnimatePresence>
+
+                                        <TodoItem
+                                            todo={todo}
+                                            toggleTodo={toggleTodo}
+                                            deleteTodo={deleteTodo}
+                                            editTodo={editTodo}
+                                            setFeedback={setFeedback}
+                                            setIsVisible={setIsVisible}
+                                            setFeedbackType={setFeedbackType}
+                                            onTagClick={setSelectedTag}
+                                            PRIORITIES={PRIORITIES}
                                         />
-                                    )}
-
-                                    <TodoItem
-                                        todo={todo}
-                                        toggleTodo={toggleTodo}
-                                        deleteTodo={deleteTodo}
-                                        editTodo={editTodo}
-                                        setFeedback={setFeedback}
-                                        setIsVisible={setIsVisible}
-                                        setFeedbackType={setFeedbackType}
-                                        onTagClick={setSelectedTag}
-                                        PRIORITIES={PRIORITIES}
-                                    />
-                                </motion.div>
-                            );
-                        })
-                    )}
+                                    </motion.div>
+                                );
+                            })
+                        )}
+                    </AnimatePresence>
                 </ul>
             </div>
         </div>
     );
-
 }
 
 export default TodoPage;

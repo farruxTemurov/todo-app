@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import useAutosizeTextArea from "../hooks/useAutosizeTextArea";
 import useCtrlEnterSave from "../hooks/useCtrlEnterSave";
@@ -110,121 +110,119 @@ const TodoItem = ({
     /* -------------------- UI -------------------- */
     return (
         <motion.li
-            layout // enables smooth position animations when items move
-            initial={{ opacity: 0, y: 10 }} // fade + slight slide in
+            layout
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }} // fade + slight slide out on deletion
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className={`${todoStyles.todoItemContainer} ${todoStyles.animatedContainer}`}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className={todoStyles.todoItemContainer}
         >
-            {isEditing ? (
-                <motion.div
-                    ref={editorRef}
-                    layout // smooth layout animation even in edit mode
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className={todoStyles.editContainer}
-                >
-                    <textarea
-                        ref={textAreaRef}
-                        value={editedText}
-                        onChange={(e) => setEditedText(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        className={todoStyles.editTextarea}
-                        rows={1}
-                    />
+            <AnimatePresence mode="wait">
+                {isEditing ? (
+                    <motion.div
+                        key="edit"
+                        ref={editorRef}
+                        className={todoStyles.editContainer}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                    >
+                        <textarea
+                            ref={textAreaRef}
+                            value={editedText}
+                            onChange={(e) => setEditedText(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            className={todoStyles.editTextarea}
+                            rows={1}
+                        />
 
-                    {/* Bottom row: priority + buttons */}
-                    <div className="flex items-center justify-between gap-2 mt-2 w-full">
-                        <select
-                            value={priority}
-                            onChange={handlePriorityChange}
-                            className={todoStyles.categorySelect}
-                        >
-                            {PRIORITIES.map((p) => (
-                                <option key={p} value={p}>
-                                    {p.charAt(0).toUpperCase() + p.slice(1)}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="flex items-center justify-between gap-2 mt-2 w-full">
+                            <select
+                                value={priority}
+                                onChange={handlePriorityChange}
+                                className={todoStyles.categorySelect}
+                            >
+                                {PRIORITIES.map((p) => (
+                                    <option key={p} value={p}>
+                                        {p.charAt(0).toUpperCase() + p.slice(1)}
+                                    </option>
+                                ))}
+                            </select>
+
+                            <div className={todoStyles.btnGroup}>
+                                <button onClick={handleSave} className={todoStyles.btnSave}>
+                                    Save
+                                </button>
+                                <button onClick={cancelEdit} className={todoStyles.btnEdit}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="view"
+                        className="flex items-start w-full gap-3"
+                        layout
+                    >
+                        <div className="flex-1 min-w-0">
+                            <motion.span
+                                onClick={handleToggle}
+                                initial={false}
+                                animate={{ opacity: todo.done ? 0.6 : 1 }}
+                                transition={{ duration: 0.2 }}
+                                className={`${todoStyles.todoText} ${todo.done
+                                    ? todoStyles.todoTextDone
+                                    : todoStyles.todoTextActive
+                                    }`}
+                            >
+                                {todo.text}
+                            </motion.span>
+
+                            <div className={todoStyles.tagsContainer}>
+                                {todo.category && (
+                                    <span className={todoStyles.categoryBadge}>{todo.category}</span>
+                                )}
+
+                                {todo.priority && (
+                                    <span
+                                        className={`${todoStyles.priorityBadge[todo.priority]} px-2 py-0.5 rounded-full text-xs capitalize`}
+                                    >
+                                        {["high", "urgent"].includes(todo.priority) ? "⚡ " : ""}
+                                        {todo.priority}
+                                    </span>
+                                )}
+
+                                {todo.tags?.map((tag) => (
+                                    <span
+                                        key={tag}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onTagClick(tag);
+                                        }}
+                                        className={todoStyles.tag}
+                                    >
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
 
                         <div className={todoStyles.btnGroup}>
-                            <button onClick={handleSave} className={todoStyles.btnSave}>
-                                Save
+                            <button onClick={handleDelete} className={todoStyles.btnDelete}>
+                                Delete
                             </button>
-                            <button onClick={cancelEdit} className={todoStyles.btnEdit}>
-                                Cancel
+                            <button
+                                onClick={() => setIsEditing(true)}
+                                className={todoStyles.btnEdit}
+                            >
+                                Edit
                             </button>
                         </div>
-                    </div>
-                </motion.div>
-            ) : (
-                <motion.div
-                    layout // smooth layout updates when toggled done
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex items-center w-full"
-                >
-                    {/* Todo text */}
-                    <div className="flex-1 min-w-0">
-                        <motion.span
-                            onClick={handleToggle}
-                            layout // animate text changes
-                            animate={{ opacity: todo.done ? 0.6 : 1 }}
-                            transition={{ duration: 0.3 }}
-                            className={`
-              ${todoStyles.todoText}
-              ${todo.done ? todoStyles.todoTextDone : todoStyles.todoTextActive}
-            `}
-                        >
-                            {todo.text}
-                        </motion.span>
-
-                        {/* Meta row */}
-                        <div className={todoStyles.tagsContainer}>
-                            {todo.category && (
-                                <span className={todoStyles.categoryBadge}>{todo.category}</span>
-                            )}
-
-                            {todo.priority && (
-                                <span
-                                    className={`${todoStyles.priorityBadge[todo.priority]} px-2 py-0.5 rounded-full text-xs capitalize`}
-                                >
-                                    {["high", "urgent"].includes(todo.priority) ? "⚡ " : ""}
-                                    {todo.priority}
-                                </span>
-                            )}
-
-                            {todo.tags?.map((tag) => (
-                                <span
-                                    key={tag}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onTagClick(tag);
-                                    }}
-                                    className={todoStyles.tag}
-                                >
-                                    #{tag}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Action buttons */}
-                    <div className={todoStyles.btnGroup}>
-                        <button onClick={handleDelete} className={todoStyles.btnDelete}>
-                            Delete
-                        </button>
-                        <button onClick={() => setIsEditing(true)} className={todoStyles.btnEdit}>
-                            Edit
-                        </button>
-                    </div>
-                </motion.div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.li>
     );
 };

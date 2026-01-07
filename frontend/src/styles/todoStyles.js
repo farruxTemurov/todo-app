@@ -59,7 +59,7 @@ export const todoStyles = {
 
     todoItemContainer:
         "flex items-center justify-between bg-gray-50 dark:bg-gray-700 \
-         px-4 py-2 rounded-xl shadow-sm hover:shadow-md \
+         min-h-[3.5rem] px-4 py-2 rounded-xl shadow-sm hover:shadow-md \
          transition-all duration-200 border border-transparent \
          hover:border-gray-200 dark:hover:border-gray-600",
 

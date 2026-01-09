@@ -199,14 +199,20 @@ function TodoPage() {
                 </p>
 
                 {/* Feedback */}
-                <motion.p
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 5 }}
-                    transition={{ duration: 0.3 }}
-                    className={`${textColorObj[feedbackType]} ${styles.feedback}`}
-                >
-                    {feedback}
-                </motion.p>
+                <AnimatePresence mode="wait">
+                    {isVisible && (
+                        <motion.p
+                            key={feedbackType + feedback}
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -5 }}
+                            transition={{ duration: 0.2 }}
+                            className={`${textColorObj[feedbackType]} ${styles.feedback}`}
+                        >
+                            {feedback}
+                        </motion.p>
+                    )}
+                </AnimatePresence>
 
                 {/* Todo list */}
                 <ul className={styles.todoList}>
